@@ -1,6 +1,6 @@
 import Entity from "./Entity";
-import GamePhysics from "./GamePhysics";
-import KeyboardHandler from "./KeyboardHandler";
+import GamePhysics from "../Singletons/GamePhysics";
+import KeyboardHandler from "../Singletons/KeyboardHandler";
 
 export default class Player extends Entity {
 

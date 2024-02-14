@@ -1,4 +1,4 @@
-import GamePhysics from "./GamePhysics";
+import GamePhysics from "../Singletons/GamePhysics";
 
 export default class Entity {
 
@@ -10,7 +10,7 @@ export default class Entity {
 
   public texture: string;
 
-  protected id: string;
+  private id: string;
 
   public constructor(x: number, y: number, sizeX: number, sizeY: number, texture: string) {
     this.x = x;

@@ -1,8 +1,7 @@
-import Entity from "./Entity";
+import Entity from "../Entities/Entity";
 import EntityManager from "./EntityManager";
 
 export default class GamePhysics {
-
 
     private static instance: GamePhysics;
 

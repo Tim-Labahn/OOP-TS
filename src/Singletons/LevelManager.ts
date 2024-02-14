@@ -1,8 +1,8 @@
-import Entity from "./Entity";
+import Entity from "../Entities/Entity";
 import EntityManager from "./EntityManager";
 import KeyboardHandler from "./KeyboardHandler";
-import Player from "./Player";
-import Goal from "./Goal";
+import Player from "../Entities/Player";
+import Goal from "../Entities/Goal";
 
 
 export default class LevelManager {

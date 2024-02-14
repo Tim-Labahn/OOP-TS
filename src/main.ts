@@ -1,9 +1,9 @@
 import './style.css'
 
-import Renderer from './Renderer';
-import EntityManager from './EntityManager';
-import LevelManager from './LevelManager';
-import GamePhysics from './GamePhysics';
+import Renderer from './Singletons/Renderer';
+import EntityManager from './Singletons/EntityManager';
+import LevelManager from './Singletons/LevelManager';
+import GamePhysics from './Singletons/GamePhysics';
 
 const renderer = Renderer.getInstance();
 renderer.setRenderingElement('app');
