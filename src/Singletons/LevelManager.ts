@@ -3,28 +3,10 @@ import EntityManager from "./EntityManager";
 import KeyboardHandler from "./KeyboardHandler";
 import Player from "../Entities/Player";
 import Goal from "../Entities/Goal";
+import Singleton from "./Singleton";
 
-
-export default class LevelManager {
-
-  private constructor() { }
-
-  private static instance: LevelManager;
-
-  public static getInstance() {
-    if (!LevelManager.instance)
-      LevelManager.instance = new LevelManager();
-
-    return LevelManager.instance;
-  }
-
-  private entityManager: EntityManager | null = null;
-  public setEntityManager(entityManager: EntityManager) {
-    this.entityManager = entityManager;
-  }
-
-  private LEVELS = [
-    `
+const LEVELS = [
+  `
 WWWWWWWWWWWWW
 WPW  W      W
 W W WWWWW WWW
@@ -32,7 +14,7 @@ W W       WWW
 W W WWW WWWWW
 W    WW    GW
 WWWWWWWWWWWWW`,
-    `
+  `
 WWWWWWWWWWWWW
 WW          W
 W   WWWWW WWW
@@ -40,7 +22,7 @@ W W  W    WWW
 W W WWW WWWWW
 WGW  WW    PW
 WWWWWWWWWWWWW`,
-    `
+  `
 WWWWWWWWWWWWW
 WWW        GW
 W   WW WWWWWW
@@ -48,7 +30,7 @@ W W  W    WWW
 W W WWW WWWWW
 WPW         W
 WWWWWWWWWWWWW`,
-    `
+  `
 WWWWWWWWWWWWW
 WGW        PW
 W  WWWWWWW WW
@@ -56,14 +38,21 @@ W    W     WW
 W W WWW WWWWW
 W W         W
 WWWWWWWWWWWWW`,
-  ]
+]
+
+export default class LevelManager extends Singleton<LevelManager>() {
+
+  private entityManager: EntityManager | null = null;
+  public setEntityManager(entityManager: EntityManager) {
+    this.entityManager = entityManager;
+  }
 
   private currentLevel = 0;
 
   public loadNextLevel() {
     console.log("loading next level")
     this.currentLevel++;
-    if (this.currentLevel >= this.LEVELS.length) this.currentLevel = 0;
+    if (this.currentLevel >= LEVELS.length) this.currentLevel = 0;
     this.loadLevel();
   }
 
@@ -74,7 +63,7 @@ WWWWWWWWWWWWW`,
 
     const keyboardHandler = KeyboardHandler.getInstance();
 
-    const map = this.LEVELS[this.currentLevel].trim()
+    const map = LEVELS[this.currentLevel].trim()
 
     entityManager.clearEntities();
 
@@ -88,10 +77,7 @@ WWWWWWWWWWWWW`,
 
         if (cell === 'G')
           entityManager.addEntity(new Goal(x * 50 + 50, y * 50 + 50, 40, 40, "https://picsum.photos/40/40?id=2", this))
-
       })
     });
-
   }
-
 }

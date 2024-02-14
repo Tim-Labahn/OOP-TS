@@ -1,25 +1,14 @@
 import EntityManager from "./EntityManager";
+import Singleton from "./Singleton";
 
-export default class Renderer {
+export default class Renderer extends Singleton<Renderer>() {
 
-    private element: HTMLElement | null = null;
     private entityManager: EntityManager | null = null;
-
-    private constructor() { }
-
-    private static instance: Renderer;
-
-    public static getInstance() {
-        if (!Renderer.instance)
-            Renderer.instance = new Renderer();
-
-        return Renderer.instance;
-    }
-
     public setEntityManager(entityManager: EntityManager) {
         this.entityManager = entityManager;
     }
 
+    private element: HTMLElement | null = null;
     public setRenderingElement(id: string) {
         const element = document.getElementById(id);
         if (!element) throw new Error(`Element with id ${id} not found`);

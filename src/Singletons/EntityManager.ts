@@ -1,7 +1,7 @@
 import Entity from "../Entities/Entity";
+import Singleton from "./Singleton";
 
-
-export default class EntityManager {
+export default class EntityManager extends Singleton<EntityManager>() {
 
   private entityList: Entity[] = [];
 
@@ -22,16 +22,4 @@ export default class EntityManager {
     entity.remove();
     this.entityList = this.entityList.filter(e => e !== entity);
   }
-
-  private constructor() { }
-
-  private static instance: EntityManager;
-
-  public static getInstance() {
-    if (!EntityManager.instance)
-      EntityManager.instance = new EntityManager();
-
-    return EntityManager.instance;
-  }
-
 }

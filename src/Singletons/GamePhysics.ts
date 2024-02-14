@@ -1,16 +1,8 @@
 import Entity from "../Entities/Entity";
 import EntityManager from "./EntityManager";
+import Singleton from "./Singleton";
 
-export default class GamePhysics {
-
-    private static instance: GamePhysics;
-
-    public static getInstance() {
-        if (!GamePhysics.instance)
-            GamePhysics.instance = new GamePhysics();
-
-        return GamePhysics.instance;
-    }
+export default class GamePhysics extends Singleton<GamePhysics>() {
 
     private entityManager: EntityManager | null = null;
     public setEntityManager(entityManager: EntityManager) {
