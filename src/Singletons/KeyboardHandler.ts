@@ -1,20 +1,26 @@
-import Singleton from "./Singleton";
+export default class KeyboardHandler {
 
-export default class KeyboardHandler extends Singleton<KeyboardHandler>() {
+    private static instance: KeyboardHandler;
 
-  private keyMap: Map<string, boolean> = new Map();
+    public static getInstance() {
+        if (!KeyboardHandler.instance)
+            KeyboardHandler.instance = new KeyboardHandler();
 
-  private constructor() {
-    super();
-    document.addEventListener("keydown", (evt: KeyboardEvent) => {
-      this.keyMap.set(evt.key, true);
-    });
-    document.addEventListener("keyup", (evt: KeyboardEvent) => {
-      this.keyMap.set(evt.key, false);
-    });
-  }
+        return KeyboardHandler.instance;
+    }
 
-  public isKeyDown(key: string) {
-    return this.keyMap.get(key) || false;
-  }
+    private keyMap: Map<string, boolean> = new Map();
+
+    private constructor() {
+        document.addEventListener("keydown", (evt: KeyboardEvent) => {
+            this.keyMap.set(evt.key, true);
+        });
+        document.addEventListener("keyup", (evt: KeyboardEvent) => {
+            this.keyMap.set(evt.key, false);
+        });
+    }
+
+    public isKeyDown(key: string) {
+        return this.keyMap.get(key) || false;
+    }
 }

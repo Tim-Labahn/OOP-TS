@@ -1,24 +1,17 @@
 import './style.css'
 
-import Renderer from './Singletons/Renderer';
-import EntityManager from './Singletons/EntityManager';
-import LevelManager from './Singletons/LevelManager';
-import GamePhysics from './Singletons/GamePhysics';
+import Renderer from './Managers/Renderer';
+import EntityManager from './Managers/EntityManager';
+import LevelManager from './Managers/LevelManager';
+import GamePhysics from './Managers/GamePhysics';
 
-const renderer = Renderer.getInstance();
-renderer.setRenderingElement('app');
+const entityManager = new EntityManager();
 
-const entityManager = EntityManager.getInstance();
-
-renderer.setEntityManager(entityManager);
-
-const levelManager = LevelManager.getInstance();
-levelManager.setEntityManager(entityManager);
+const renderer = new Renderer('app', entityManager);
+const levelManager = new LevelManager(entityManager);
+const gamePhysics = new GamePhysics(entityManager);
 
 levelManager.loadLevel();
-
-const gamePhysics = GamePhysics.getInstance();
-gamePhysics.setEntityManager(entityManager);
 
 setInterval(() => {
     gamePhysics.tick();

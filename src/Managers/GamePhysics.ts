@@ -1,22 +1,20 @@
 import Entity from "../Entities/Entity";
 import EntityManager from "./EntityManager";
-import Singleton from "./Singleton";
 
-export default class GamePhysics extends Singleton<GamePhysics>() {
+export default class GamePhysics {
 
-    private entityManager: EntityManager | null = null;
-    public setEntityManager(entityManager: EntityManager) {
+    private entityManager: EntityManager;
+
+    public constructor(entityManager: EntityManager) {
         this.entityManager = entityManager;
     }
 
     public tick() {
-        if (!this.entityManager) throw new Error("No EntityManager set");
         for (const entity of this.entityManager.getEntityList())
             entity.tick(this)
     }
 
     public collidesInDirection(entity: Entity, direction: "up" | "down" | "left" | "right", offset: number) {
-        if (!this.entityManager) throw new Error("No EntityManager set");
         for (const otherEntity of this.entityManager.getEntityList()) {
             if (entity === otherEntity) continue;
             if (direction === "up") {
@@ -40,7 +38,6 @@ export default class GamePhysics extends Singleton<GamePhysics>() {
     }
 
     public getCollidingEntities(entity: Entity, offset: number = 3) {
-        if (!this.entityManager) throw new Error("No EntityManager set");
         return this.entityManager.getEntityList().filter(e => e !== entity && this.isColliding(entity, e, offset));
     }
 
