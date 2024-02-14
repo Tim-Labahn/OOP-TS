@@ -1,0 +1,30 @@
+var g=Object.defineProperty;var p=(r,e,t)=>e in r?g(r,e,{enumerable:!0,configurable:!0,writable:!0,value:t}):r[e]=t;var W=(r,e,t)=>(p(r,typeof e!="symbol"?e+"":e,t),t);(function(){const e=document.createElement("link").relList;if(e&&e.supports&&e.supports("modulepreload"))return;for(const s of document.querySelectorAll('link[rel="modulepreload"]'))i(s);new MutationObserver(s=>{for(const n of s)if(n.type==="childList")for(const o of n.addedNodes)o.tagName==="LINK"&&o.rel==="modulepreload"&&i(o)}).observe(document,{childList:!0,subtree:!0});function t(s){const n={};return s.integrity&&(n.integrity=s.integrity),s.referrerPolicy&&(n.referrerPolicy=s.referrerPolicy),s.crossOrigin==="use-credentials"?n.credentials="include":s.crossOrigin==="anonymous"?n.credentials="omit":n.credentials="same-origin",n}function i(s){if(s.ep)return;s.ep=!0;const n=t(s);fetch(s.href,n)}})();class v{constructor(e,t){W(this,"entityManager");W(this,"element");const i=document.getElementById(e);if(!i)throw new Error(`Element with id ${e} not found`);this.element=i,this.entityManager=t}render(){if(!this.entityManager)throw new Error("No EntityManager set");if(!this.element)throw new Error("No EntityManager set");for(const e of this.entityManager.getEntityList())e.render(this.element)}}class f{constructor(){W(this,"entityList",[])}clearEntities(){for(const e of this.entityList)this.removeEntity(e)}getEntityList(){return this.entityList}addEntity(e){this.entityList.push(e)}removeEntity(e){e.remove(),this.entityList=this.entityList.filter(t=>t!==e)}}class a{constructor(e,t,i,s,n){W(this,"x");W(this,"y");W(this,"sizeX");W(this,"sizeY");W(this,"texture");W(this,"id");W(this,"ownDivElement",null);this.x=e,this.y=t,this.sizeX=i,this.sizeY=s,this.texture=n,this.id=Math.random().toString(36).substring(7)}render(e){this.ownDivElement||(this.ownDivElement=document.createElement("div"),e.appendChild(this.ownDivElement)),this.ownDivElement.style.position="absolute",this.ownDivElement.style.left=`${this.x-this.sizeX/2}px`,this.ownDivElement.style.top=`${this.y-this.sizeY/2}px`,this.ownDivElement.style.width=`${this.sizeX}px`,this.ownDivElement.style.height=`${this.sizeY}px`,this.ownDivElement.style.backgroundImage=`url(${this.texture})`,this.ownDivElement.style.backgroundSize="cover",this.ownDivElement.id=this.id}remove(){this.ownDivElement&&this.ownDivElement.remove()}}class w extends a{tick(e){}}const l=class l{constructor(){W(this,"keyMap",new Map);document.addEventListener("keydown",e=>{this.keyMap.set(e.key,!0)}),document.addEventListener("keyup",e=>{this.keyMap.set(e.key,!1)})}static getInstance(){return l.instance||(l.instance=new l),l.instance}isKeyDown(e){return this.keyMap.get(e)||!1}};W(l,"instance");let h=l;class u extends a{constructor(t,i,s,n,o){super(t,i,s,n,o);W(this,"keyboardHandler");W(this,"movementKeys",{up:"ArrowUp",down:"ArrowDown",left:"ArrowLeft",right:"ArrowRight"});W(this,"movementSpeed",3);this.keyboardHandler=h.getInstance()}setMovementKeys(t,i,s,n){this.movementKeys={up:t,down:i,left:s,right:n}}getMovementKey(t){return this.movementKeys[t]}tick(t){this.keyboardHandler.isKeyDown(this.getMovementKey("up"))&&!t.collidesInDirection(this,"up",this.movementSpeed)&&(this.y-=this.movementSpeed),this.keyboardHandler.isKeyDown(this.getMovementKey("down"))&&!t.collidesInDirection(this,"down",this.movementSpeed)&&(this.y+=this.movementSpeed),this.keyboardHandler.isKeyDown(this.getMovementKey("left"))&&!t.collidesInDirection(this,"left",this.movementSpeed)&&(this.x-=this.movementSpeed),this.keyboardHandler.isKeyDown(this.getMovementKey("right"))&&!t.collidesInDirection(this,"right",this.movementSpeed)&&(this.x+=this.movementSpeed)}}class E extends a{constructor(t,i,s,n,o,m){super(t,i,s,n,o);W(this,"levelManager");this.levelManager=m}tick(t){t.getCollidingEntities(this).some(i=>i instanceof u)&&this.levelManager.loadNextLevel()}}const d=[`
+WWWWWWWWWWWWW
+WPW  W      W
+W W WWWWW WWW
+W W       WWW
+W W WWW WWWWW
+W    WW    GW
+WWWWWWWWWWWWW`,`
+WWWWWWWWWWWWW
+WW          W
+W   WWWWW WWW
+W W  W    WWW
+W W WWW WWWWW
+WGW  WW    PW
+WWWWWWWWWWWWW`,`
+WWWWWWWWWWWWW
+WWW        GW
+W   WW WWWWWW
+W W  W    WWW
+W W WWW WWWWW
+WPW         W
+WWWWWWWWWWWWW`,`
+WWWWWWWWWWWWW
+WGW        PW
+W  WWWWWWW WW
+W    W     WW
+W W WWW WWWWW
+W W         W
+WWWWWWWWWWWWW`];class y{constructor(e){W(this,"entityManager");W(this,"currentLevel",0);this.entityManager=e}loadNextLevel(){this.currentLevel++,this.currentLevel>=d.length&&(this.currentLevel=0),this.loadLevel()}loadLevel(){const e=d[this.currentLevel].trim();this.entityManager.clearEntities(),e.split(`
+`).forEach((t,i)=>{t.split("").forEach((s,n)=>{s==="W"&&this.entityManager.addEntity(new w(n*50+50,i*50+50,50,50,"https://picsum.photos/50/50")),s==="P"&&this.entityManager.addEntity(new u(n*50+50,i*50+50,40,40,"https://picsum.photos/40/40")),s==="G"&&this.entityManager.addEntity(new E(n*50+50,i*50+50,40,40,"https://picsum.photos/40/40?id=2",this))})})}}class x{constructor(e){W(this,"entityManager");this.entityManager=e}tick(){for(const e of this.entityManager.getEntityList())e.tick(this)}collidesInDirection(e,t,i){for(const s of this.entityManager.getEntityList())if(e!==s&&(t==="up"&&(this.isInBoundingBox(s,e.x-e.sizeY/2,e.y-e.sizeY/2-i)||this.isInBoundingBox(s,e.x+e.sizeY/2,e.y-e.sizeY/2-i))||t==="down"&&(this.isInBoundingBox(s,e.x-e.sizeY/2,e.y+e.sizeY/2+i)||this.isInBoundingBox(s,e.x+e.sizeY/2,e.y+e.sizeY/2+i))||t==="left"&&(this.isInBoundingBox(s,e.x-e.sizeX/2-i,e.y-e.sizeY/2)||this.isInBoundingBox(s,e.x-e.sizeX/2-i,e.y+e.sizeY/2))||t==="right"&&(this.isInBoundingBox(s,e.x+e.sizeX/2+i,e.y-e.sizeY/2)||this.isInBoundingBox(s,e.x+e.sizeX/2+i,e.y+e.sizeY/2))))return!0;return!1}getCollidingEntities(e,t=3){return this.entityManager.getEntityList().filter(i=>i!==e&&this.isColliding(e,i,t))}isColliding(e,t,i){return e.x-e.sizeX/2-i<t.x+t.sizeX/2&&e.x+e.sizeX/2+i>t.x-t.sizeX/2&&e.y-e.sizeY/2-i<t.y+t.sizeY/2&&e.y+e.sizeY/2+i>t.y-t.sizeY/2}isInBoundingBox(e,t,i){return t>e.x-e.sizeX/2&&t<e.x+e.sizeX/2&&i>e.y-e.sizeY/2&&i<e.y+e.sizeY/2}}const c=new f,z=new v("app",c),M=new y(c),L=new x(c);M.loadLevel();setInterval(()=>{L.tick(),z.render()},10);
