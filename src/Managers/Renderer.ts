@@ -14,8 +14,6 @@ export default class Renderer {
     }
 
     public render() {
-        if (!this.entityManager) throw new Error("No EntityManager set");
-        if (!this.element) throw new Error("No EntityManager set");
         for (const entity of this.entityManager.getEntityList())
             entity.render(this.element)
     }
