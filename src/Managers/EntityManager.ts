@@ -1,24 +1,23 @@
+import { shallowRef, shallowReactive } from "vue";
 import Entity from "../Entities/Entity";
 
 export default class EntityManager {
 
-    private entityList: Entity[] = [];
+    private entityList = shallowRef<Entity[]>([]);
 
     public clearEntities() {
-        for (const entity of this.entityList)
+        for (const entity of this.entityList.value)
             this.removeEntity(entity)
     }
 
     public getEntityList() {
-        return this.entityList;
+        return this.entityList.value;
     }
 
     public addEntity(entity: Entity) {
-        this.entityList.push(entity);
+        this.entityList.value.push(shallowReactive(entity));
     }
-
     public removeEntity(entity: Entity) {
-        entity.remove();
-        this.entityList = this.entityList.filter(e => e !== entity);
+        this.entityList.value = this.entityList.value.filter(e => e !== entity);
     }
 }
