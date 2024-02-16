@@ -3,15 +3,16 @@ import EntityManager from "./EntityManager";
 import Player from "../Entities/Player";
 import Goal from "../Entities/Goal";
 import Coin from "../Entities/Coin";
+import Enemy from "../Entities/Enemy";
 
 const LEVELS = [
   `
 WWWWWWWWWWWWW
-WPWC W C C  W
+WPWC W C CE W
 W W WWWWW WWW
 WCWC C C CWWW
 W W WWW WWWWW
-WC C WWC C GW
+WC C WWCECEGW
 WWWWWWWWWWWWW`,
 ];
 
@@ -76,7 +77,17 @@ export default class LevelManager {
               this.entityManager
             )
           );
-
+        if (cell === "E")
+          this.entityManager.addEntity(
+            new Enemy(
+              x * 50 + 50,
+              y * 50 + 50,
+              40,
+              40,
+              "https://picsum.photos/40/40?id=2",
+              this
+            )
+          );
         if (cell === "G")
           this.entityManager.addEntity(
             new Goal(
