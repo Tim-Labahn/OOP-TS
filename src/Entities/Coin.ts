@@ -16,6 +16,7 @@ export default class Coin extends Entity {
   ) {
     super(x, y, sizeX, sizeY, texture);
     this.entityManager = entityManager;
+    this.hasMovementCollision = false;
   }
 
   public tick(gamePhysics: GamePhysics) {

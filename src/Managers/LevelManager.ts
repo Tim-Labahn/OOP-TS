@@ -10,9 +10,9 @@ const LEVELS = [
 WWWWWWWWWWWWW
 WPWC W C CE W
 W W WWWWW WWW
-WCWC C C CWWW
-W W WWW WWWWW
-WC C WWCECEGW
+WCWC C C CWGW
+W W WWW WWW W
+WC CW  E  E W
 WWWWWWWWWWWWW`,
 ];
 
@@ -52,13 +52,7 @@ export default class LevelManager {
       row.split("").forEach((cell, x) => {
         if (cell === "W")
           this.entityManager.addEntity(
-            new Wall(
-              x * 50 + 50,
-              y * 50 + 50,
-              50,
-              50,
-              "https://picsum.photos/50/50"
-            )
+            new Wall(x * 50 + 50, y * 50 + 50, 50, 50, "./Wall.png")
           );
 
         if (cell === "P")
@@ -81,10 +75,10 @@ export default class LevelManager {
           this.entityManager.addEntity(
             new Enemy(
               x * 50 + 50,
-              y * 50 + 50,
+              y * 50 + 50 + x / 2,
               40,
               40,
-              "https://picsum.photos/40/40?id=3",
+              "./Enemy.png",
               this
             )
           );
@@ -93,8 +87,8 @@ export default class LevelManager {
             new Goal(
               x * 50 + 50,
               y * 50 + 50,
-              40,
-              40,
+              50,
+              50,
               "https://picsum.photos/40/40?id=2",
               this
             )
